@@ -29,3 +29,6 @@ The Sigma chart is a node graph created in d3 and meant to provide a helpful way
      OR employ Fisheye
   - 
 Any help on above ToDO's would be appreciated via Pull Request.
+
+Screenshot:
+<img src="https://raw.githubusercontent.com/chrislarsenqlik/SenseSigma/master/SenseSigma.png">
