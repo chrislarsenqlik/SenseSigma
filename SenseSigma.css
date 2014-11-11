@@ -1,0 +1,65 @@
+.qv-object-SenseSigma .link.active {
+}
+
+.qv-object-SenseSigma .link.inactive {
+	stroke-width:1;
+}
+
+.qv-object-SenseSigma .link.neighbor {
+	stroke-dasharray:5,5;
+}
+
+/*.qv-object-SenseSigma .node {
+	stroke: grey;
+	fill: #92C5DE;
+}*/
+
+.qv-object-SenseSigma .node.active {
+	background: white; 
+	border-width: 1px;
+	box-shadow: 0px 3px 5px #F0F0F0;
+}
+
+.qv-object-SenseSigma .node.neighbor {
+	stroke-width:2;
+}
+
+.qv-object-SenseSigma .node.neighbor2 {
+	stroke-width:2;
+	stroke-dasharray:5,5;
+}
+
+.qv-object-SenseSigma .node.inactive {
+}
+
+.qv-object-SenseSigma .node.neighbor2 text {
+ 	visibility: hidden;
+ 	background: white; 
+}
+
+.qv-object-SenseSigma div.tooltip {
+	position: fixed; 
+	text-align: left;
+	width: auto;
+	height: auto;
+	padding-left: 4px;
+	padding-right:4px;
+	padding-top:2px;
+	padding-bottom:2px;
+	font: 12px sans-serif; 
+	background: white; 
+	border-width: 1px;
+	border-style: solid;
+	pointer-events: none;
+	border-color: rgb(230,230,230); 
+}
+
+.qv-object-SenseSigma .draggable
+{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: gray;
+    height: 40px;
+    width: 150px;
+}
