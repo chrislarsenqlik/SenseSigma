@@ -13,8 +13,8 @@ The Sigma chart is a node graph created in d3 and meant to provide a helpful way
 ###Dimension/Measure configs:
   - Dimension1: Source Field (e.g. Product1) 
   - Dimension2: Target Field (e.g. Product2)
-  - Measure 1: Node Size (e.g. sum(Sales) )
-  - Measure 2: Edge Size (e.g. sum(MutuallyOccurringFrequency) )
+  - Measure 1: Edge Count/Weight (e.g. sum(MutuallyOccurringFrequency) )
+  - Measure 2: Node Count/Weight (e.g. sum(Sales) )
 
 ###Shortcomings:
  - Selections require mirrored pairs of data; for example, existence of Source and Target would require to have Target and Source as well.
