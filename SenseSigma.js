@@ -170,25 +170,6 @@ define(["jquery", "text!./SenseSigma.css","./d3.min"], function($, cssContent) {
 			    .call(zoom)
 			    .append('svg:g');
 
-			// Alt Arrow Def
-			var defs = svg.append("defs");
-
-			defs.append("marker")
-				.attr({
-					"id":"Arrow",
-					"viewBox":"0 -5 10 10",
-					"refX":0,
-					"refY":0,
-					"markerWidth":4,
-					"markerHeight":4,
-					"stroke":"green",
-					"stroke-width":2,
-					"fill":"blue",
-					"orient":"auto"
-				})
-				.append("path")
-					.attr("d", "M0,-5L10,0L0,5");
-
 			var rect = svg
 				.append('rect')
 			    .attr('width', width-margin.right)
@@ -208,9 +189,10 @@ define(["jquery", "text!./SenseSigma.css","./d3.min"], function($, cssContent) {
    //  		console.log(diagonal.projection)
     			
    			// Chris's Line Links
-			var link = svg.append("svg:g").selectAll("line.link")
+			var link = svg.append("svg:g")
+			    .selectAll("path")
 			    .data(source_E)
-			    .enter().append("svg:line")
+			    .enter().append("svg:path")
 			    .attr("class","link")
 			    .style("stroke-width",function(d) {
 			    	var thisvsavg = d.count / linkavgsum
@@ -236,8 +218,7 @@ define(["jquery", "text!./SenseSigma.css","./d3.min"], function($, cssContent) {
 											else if (d.count >= (linkavgsum*.6)+linkavgsum && d.count < (linkavgsum*.8)+linkavgsum) { return '#660000' }
 					    						else {return '#660000'}
 			    })
-				.style("stroke-opacity", "1")
-				.attr("marker-end","url(#Arrow)");
+				.style("stroke-opacity", "1");
 
 			var node = svg.selectAll("circle.node")
 			    .data(source_B)
@@ -424,24 +405,26 @@ define(["jquery", "text!./SenseSigma.css","./d3.min"], function($, cssContent) {
 				});
 
 			force.on("tick", function() {
-				// Code for lines
-				link.attr("x1",function(d) { return d.source.x;})
-				    .attr("y1",function(d) { return d.source.y;})
-				    .attr("x2",function(d) { return d.target.x;})
-				    .attr("y2",function(d) { return d.target.y;});
+				link.attr("d", function(d) {
+					var dx = d.target.x - d.source.x,
+						dy = d.target.y - d.source.y,
+						dr = Math.sqrt(dx * dx + dy * dy),
+						theta = Math.atan2(dy, dx) + Math.PI / 7.85,
+						d90 = Math.PI / 2,
+						dSize;
 
-				// // Code for paths
-				// link.attr("d", function(d) {
-				// 	var dx = d.target.x - d.source.x,
-				// 		dy = d.target.y - d.source.y,
-				// 		dr = Math.sqrt(dx * dx + dy * dy);
-				// 	return "M" + 
-				// 		d.source.x + "," + 
-				// 		d.source.y + "A" + 
-				// 		dr + "," + dr + " 0 0,1 " + 
-				// 		d.target.x + "," + 
-				// 		d.target.y;
-				// });
+					if (d.nodecnt) {
+						var thisvsavg = 10*d.target.nodecnt / nodeavgcnt
+					 	dSize = Math.round(2+2*thisvsavg);
+					} else {
+						dSize = Math.round(5);
+					}
+
+					var dtxs = d.target.x - dSize * Math.cos(theta),
+					dtys = d.target.y - dSize * Math.sin(theta);
+
+					return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0 1," + d.target.x + "," + d.target.y + "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y + "M" + dtxs + "," + dtys +  "l" + (3.5 * Math.cos(d90 - theta) - 10 * Math.cos(theta)) + "," + (-3.5 * Math.sin(d90 - theta) - 10 * Math.sin(theta)) + "L" + (dtxs - 3.5 * Math.cos(d90 - theta) - 10 * Math.cos(theta)) + "," + (dtys + 3.5 * Math.sin(d90 - theta) - 10 * Math.sin(theta)) + "z";
+				});
 
 				    node
 				    	// .attr("cx",function(d) {return d.x;})
